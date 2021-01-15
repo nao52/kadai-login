@@ -1,4 +1,5 @@
 class TasksController < ApplicationController
+  before_action :require_user_logged_in
   before_action :set_task, only: [:show, :edit, :update, :destroy]
   
   
@@ -29,7 +30,7 @@ class TasksController < ApplicationController
   end
   
   def update
-    if @task.update(message_params)
+    if @task.update(task_params)
       flash[:success] = 'Task は正常に更新されました'
       redirect_to @task
     else
@@ -52,6 +53,6 @@ class TasksController < ApplicationController
   end
   
   def task_params
-    params.require(:task).permit(:content, :status)
+    params.require(:task).permit(:content, :status, :user)
   end
 end
